@@ -1,0 +1,17 @@
+package cdpoitmo.main_service.repository;
+
+import cdpoitmo.main_service.entity.Token;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface TokenRepository extends JpaRepository<Token, Long> {
+    @Query("""
+        select t from Token t inner join ApplicationUser u on t.applicationUser.id = u.id
+        where u.id = :id and (t.expired = false or t.revoked = false)
+    """)
+    List<Token> findAllValidTokensByApplicationUserId(Long id);
+    Optional<Token> findByRefreshToken(String token);
+}

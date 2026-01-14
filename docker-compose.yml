@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  main-service-db:
+    image: postgres:15-alpine
+    container_name: main-service-db
+    environment:
+      POSTGRES_DB: animals
+      POSTGRES_USER: cdpo
+      POSTGRES_PASSWORD: cdpo
+    ports:
+      - "5432:5432"
+    volumes:
+      - main-service-db-data:/var/lib/postgresql/data
+    networks:
+      - tech-service-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cdpo -d animals"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  main-service:
+    build:
+      context: .
+      dockerfile: main-service/Dockerfile
+    container_name: main-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://main-service-db:5432/animals
+      SPRING_DATASOURCE_USERNAME: cdpo
+      SPRING_DATASOURCE_PASSWORD: cdpo
+      SECURITY_JWT_SECRET: YmFzZTY0LXNlY3VyZS1rZXktZm9yLWhzMjU2LXNpZ25pbmctMzItYnl0ZXM=
+      SECURITY_JWT_REFRESH_SECRET: uN9fX2Vp8zP9vL/Rk8qW4zN2M5tJ6bQ7rT8yU0iO1pA=
+    ports:
+      - "8080:8080"
+    depends_on:
+      main-service-db:
+        condition: service_healthy
+    networks:
+      - tech-service-network
+
+volumes:
+  main-service-db-data:
+
+networks:
+  tech-service-network:
+    driver: bridge
