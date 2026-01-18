@@ -30,13 +30,13 @@ public class TechServiceController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATOR')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR')")
     public ResponseEntity<TechServiceResponseDTO> createService(@RequestBody TechServiceRequestDTO techServiceRequestDTO) {
         return ResponseEntity.ok(techService.createService(techServiceRequestDTO));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATOR')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR')")
     public ResponseEntity<TechServiceResponseDTO> updateService(@PathVariable Long id,
                                                                 @RequestBody TechServiceRequestDTO techServiceRequestDTO) {
         return ResponseEntity.ok(techService.updateService(id, techServiceRequestDTO));

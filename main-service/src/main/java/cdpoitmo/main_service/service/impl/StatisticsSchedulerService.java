@@ -23,7 +23,7 @@ public class StatisticsSchedulerService {
     @Scheduled(fixedDelay = 60000)
     @Transactional
     public void sendStatistic() {
-        List<Booking> unsyncedBookings = bookingRepository.findAllByStatusAndIsSynchedFalse(BookingStatus.COMPLETED);
+        List<Booking> unsyncedBookings = bookingRepository.findAllByStatusAndIsSyncedFalse(BookingStatus.COMPLETED);
 
         if (unsyncedBookings.isEmpty()) return;
 

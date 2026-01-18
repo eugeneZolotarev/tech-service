@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/bookings")
 @RequiredArgsConstructor
-@PreAuthorize("hasAnyRole('USER')")
+@PreAuthorize("hasAnyAuthority('USER')")
 @Validated
 public class BookingController {
 
@@ -25,7 +25,7 @@ public class BookingController {
 
     @PostMapping()
     public ResponseEntity<BookingResponseDTO> createBooking(
-            BookingRequestDTO bookingRequestDTO,
+            @RequestBody BookingRequestDTO bookingRequestDTO,
             @AuthenticationPrincipal UserDetails authUser
             ) {
         return ResponseEntity.ok(

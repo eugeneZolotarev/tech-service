@@ -24,7 +24,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findAllByAppointmentTimeBetween(LocalDateTime start, LocalDateTime end);
 
     //Возвращает все брони, которые не были занесены еще в сервис сбора статистики
-    List<Booking> findAllByStatusAndIsSynchedFalse(BookingStatus status);
+    List<Booking> findAllByStatusAndIsSyncedFalse(BookingStatus status);
 
     @Query("SELECT new cdpoitmo.main_service.dto.bookingDTO.RevenueDTO(CAST(b.appointmentTime AS LocalDate), SUM(b.finalPrice)) " +
             "FROM Booking b " +

@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("/api/v1/admin")
 @RequiredArgsConstructor
 @Validated
-@PreAuthorize("hasAnyRole('ADMIN', 'OPERATOR')")
+@PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR')")
 public class AdminController {
 
     private final AdminService adminService;
@@ -70,7 +70,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/bookings/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATOR')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR')")
     public ResponseEntity<BookingResponseDTO> cancelBookingByAdmin(@PathVariable Long id) {
         return ResponseEntity.ok(adminService.cancelBookingByAdmin(id));
     }

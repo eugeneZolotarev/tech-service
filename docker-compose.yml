@@ -1,6 +1,20 @@
 version: '3.8'
 
 services:
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_service
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    networks:
+      - tech-service-network
+    depends_on:
+      - main-service-db
+
   main-service-db:
     image: postgres:15-alpine
     container_name: main-service-db
@@ -22,8 +36,8 @@ services:
 
   dwh-service:
     build:
-      context: ./dwh-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: dwh-service/Dockerfile
     container_name: dwh-service
     ports:
       - "8081:8081"
@@ -32,8 +46,8 @@ services:
 
   main-service:
     build:
-      context: ./main-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: main-service/Dockerfile
     container_name: main-service
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://main-service-db:5432/tech_service
