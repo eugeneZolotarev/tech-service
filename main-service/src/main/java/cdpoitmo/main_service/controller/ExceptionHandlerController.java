@@ -41,7 +41,7 @@ public class ExceptionHandlerController {
     //403 - FORBIDDEN попытка доступа к чужому ресурсу
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponseDTO> handleAccessDenied(AccessDeniedException ex) {
-        return buildResponse(HttpStatus.FORBIDDEN, ex.getMessage());
+        return buildResponse(HttpStatus.FORBIDDEN, "Доступ запрещен. У вас недостаточно прав для выполнения этой операции");
     }
 
     //400 - BAD_REQUEST ошибка в полях DTO при валидации @Valid
@@ -57,12 +57,6 @@ public class ExceptionHandlerController {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleGlobalException(Exception ex) {
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR,"Внутренняя ошибка сервера: " + ex.getMessage());
-    }
-
-    //несовпадение ролей - 403 Forbidden
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorResponseDTO> handleAccessDeniedException(AccessDeniedException ex) {
-        return buildResponse(HttpStatus.FORBIDDEN,"Доступ запрещен. У вас недостаточно прав для выполнения этой операции");
     }
 
     private ResponseEntity<ErrorResponseDTO> buildResponse(HttpStatus status, String message) {

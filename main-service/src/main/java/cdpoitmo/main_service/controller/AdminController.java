@@ -84,6 +84,10 @@ public class AdminController {
         return ResponseEntity.ok(adminService.setDiscountBooking(id, request));
     }
 
+    @Operation(
+            summary = "Отменить бронь по id",
+            description = "Позволяет администратору и оператору отменить бронь по id"
+    )
     @DeleteMapping("/bookings/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR')")
     public ResponseEntity<BookingResponseDTO> cancelBookingByAdmin(@PathVariable Long id) {
