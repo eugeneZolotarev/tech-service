@@ -2,8 +2,8 @@
 
 Backend-приложение для управления сервисом технических услуг. Проект реализует полный цикл работы: от ведения каталога услуг и регистрации пользователей до бронирования, управления ролями, финансовой отчетности и интеграции с внешними системами. 
 
-![Java](https://img.shields.io/badge/Java-21-orange)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2-green)
+![Java](https://img.shields.io/badge/Java-23-orange)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.1-green)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED)
 
@@ -16,7 +16,7 @@ Backend-приложение для управления сервисом тех
 
 ## 🛠 Технологический стек
 
-* **Core:** Java 21, Spring Boot 3 (Web, Data JPA, Validation, Security, Mail, Scheduling)
+* **Core:** Java 23, Spring Boot 4 (Web, Data JPA, Validation, Security, Mail, Scheduling)
 * **Database:** PostgreSQL
 * **Auth:** Spring Security + JWT (Access/Refresh tokens)
 * **API Docs:** SpringDoc OpenAPI (Swagger UI)
