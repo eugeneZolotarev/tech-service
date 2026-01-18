@@ -1,7 +1,7 @@
 package cdpoitmo.main_service.mapper;
 
-import cdpoitmo.main_service.dto.TechServiceRequestDTO;
-import cdpoitmo.main_service.dto.TechServiceResponseDTO;
+import cdpoitmo.main_service.dto.techServiceDTO.TechServiceRequestDTO;
+import cdpoitmo.main_service.dto.techServiceDTO.TechServiceResponseDTO;
 import cdpoitmo.main_service.entity.TechServiceEntity;
 import org.mapstruct.*;
 

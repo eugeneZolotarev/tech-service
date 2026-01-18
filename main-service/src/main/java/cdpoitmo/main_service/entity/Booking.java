@@ -37,6 +37,9 @@ public class Booking {
     @Column(name = "discount_percent")
     private Double discountPercent;
 
+    @Column(name = "is_synced")
+    private Boolean isSynced = false;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

@@ -6,6 +6,9 @@ import cdpoitmo.main_service.dto.authDTO.RegistrationDTO;
 import cdpoitmo.main_service.dto.authDTO.TokenDTO;
 import cdpoitmo.main_service.entity.ApplicationUser;
 import cdpoitmo.main_service.entity.Token;
+import cdpoitmo.main_service.exception.BusinessValidationException;
+import cdpoitmo.main_service.exception.ResourceNotFoundException;
+import cdpoitmo.main_service.exception.UserAlreadyExistsException;
 import cdpoitmo.main_service.repository.TokenRepository;
 import cdpoitmo.main_service.repository.UserRepository;
 import cdpoitmo.main_service.service.AuthService;
@@ -51,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public void register(RegistrationDTO registrationRequest) {
         if (userRepository.findByUsername(registrationRequest.username()).isPresent()) {
-            throw new RuntimeException("User already exists"); //todo добавить кастомное исключение
+            throw new UserAlreadyExistsException("Пользователь с таким имененем уже существует");
         }
 
         ApplicationUser newUser = ApplicationUser.builder()
@@ -72,7 +75,7 @@ public class AuthServiceImpl implements AuthService {
         );
 
         ApplicationUser neededUser = userRepository.findByUsername(requestLogin.username()).orElseThrow(
-                () -> new RuntimeException("User not found") //todo добавить кастомное исключение
+                () -> new ResourceNotFoundException("Пользователь с таким именем не был найден")
         );
 
         UserDetails userDetails = userDetailService.loadUserByUsername(requestLogin.username());
@@ -92,7 +95,8 @@ public class AuthServiceImpl implements AuthService {
         String username = jwtSecurityService.extractUsername(refreshToken, jwtRefreshSecret);
 
         ApplicationUser appUser = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found")); //todo добавить кастомное исключение
+                .orElseThrow(() -> new ResourceNotFoundException("Пользователь с таким именем не был найден")
+                );
 
         boolean isTokenValid = tokenRepository.findByRefreshToken(refreshToken)
                 .map(t -> !t.isExpired() && !t.isRevoked())
@@ -104,7 +108,7 @@ public class AuthServiceImpl implements AuthService {
 
             return new TokenDTO(accessToken, refreshToken);
         } else {
-            throw new RuntimeException("Refresh token is invalid or revoked"); //todo добавить кастомное исключение
+            throw new BusinessValidationException("Refresh токен невалиден или отозван");
         }
     }
 

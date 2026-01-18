@@ -38,6 +38,9 @@ public class ApplicationUser {
     @Column(name = "role", nullable = false)
     private UserRole userRole;
 
+    @Column(name = "personal_discount")
+    private Double personalDiscount = 0.0;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Booking> bookings;
 

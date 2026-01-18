@@ -1,5 +1,6 @@
 package cdpoitmo.main_service.mapper;
 
+import cdpoitmo.main_service.entity.ApplicationUser;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.NullValuePropertyMappingStrategy;

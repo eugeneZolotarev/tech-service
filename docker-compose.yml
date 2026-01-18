@@ -5,7 +5,7 @@ services:
     image: postgres:15-alpine
     container_name: main-service-db
     environment:
-      POSTGRES_DB: animals
+      POSTGRES_DB: tech_service
       POSTGRES_USER: cdpo
       POSTGRES_PASSWORD: cdpo
     ports:
@@ -15,27 +15,41 @@ services:
     networks:
       - tech-service-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U cdpo -d animals"]
+      test: ["CMD-SHELL", "pg_isready -U cdpo -d tech_service"]
       interval: 10s
       timeout: 5s
       retries: 5
 
+  dwh-service:
+    build:
+      context: ./dwh-service
+      dockerfile: Dockerfile
+    container_name: dwh-service
+    ports:
+      - "8081:8081"
+    networks:
+      - tech-service-network
+
   main-service:
     build:
-      context: .
-      dockerfile: main-service/Dockerfile
+      context: ./main-service
+      dockerfile: Dockerfile
     container_name: main-service
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://main-service-db:5432/animals
+      SPRING_DATASOURCE_URL: jdbc:postgresql://main-service-db:5432/tech_service
       SPRING_DATASOURCE_USERNAME: cdpo
       SPRING_DATASOURCE_PASSWORD: cdpo
       SECURITY_JWT_SECRET: YmFzZTY0LXNlY3VyZS1rZXktZm9yLWhzMjU2LXNpZ25pbmctMzItYnl0ZXM=
       SECURITY_JWT_REFRESH_SECRET: uN9fX2Vp8zP9vL/Rk8qW4zN2M5tJ6bQ7rT8yU0iO1pA=
+      DWH_SERVICE_URL: http://dwh-service:8081
+      SPRING_PROFILES_ACTIVE: feign # или rest
     ports:
       - "8080:8080"
     depends_on:
       main-service-db:
         condition: service_healthy
+      dwh-service:
+        condition: service_started
     networks:
       - tech-service-network
 

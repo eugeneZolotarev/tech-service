@@ -51,7 +51,6 @@ public class JwtSecurityServiceImpl implements JwtSecurityService {
 
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        // По умолчанию проверяем как Access Token (с jwtSecret)
         final String username = extractUsername(token, jwtSecret);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token, jwtSecret);
     }
