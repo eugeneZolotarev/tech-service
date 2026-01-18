@@ -2,6 +2,7 @@ package cdpoitmo.main_service.service.impl;
 
 import cdpoitmo.main_service.entity.ApplicationUser;
 import cdpoitmo.main_service.repository.UserRepository;
+import cdpoitmo.main_service.exception.UserAlreadyExistsException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,7 +23,7 @@ public class UserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         ApplicationUser applicationUser = userRepository.findByUsername(username)
-                .orElseThrow(()->new UsernameNotFoundException("ApplicationUser not found"));
+                .orElseThrow(()->new UserAlreadyExistsException("Пользователь с такими данными уже существует"));
 
         GrantedAuthority authority = new SimpleGrantedAuthority(
                 applicationUser.getUserRole().name());

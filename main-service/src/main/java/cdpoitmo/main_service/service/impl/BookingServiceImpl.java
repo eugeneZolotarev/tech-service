@@ -1,5 +1,6 @@
 package cdpoitmo.main_service.service.impl;
 
+import cdpoitmo.main_service.service.EmailService;
 import cdpoitmo.main_service.constants.BookingStatus;
 import cdpoitmo.main_service.dto.bookingDTO.BookingRequestDTO;
 import cdpoitmo.main_service.dto.bookingDTO.BookingResponseDTO;
@@ -100,7 +101,7 @@ public class BookingServiceImpl implements BookingService {
     public List<BookingResponseDTO> getAllMyBookings(String username) {
         ApplicationUser neededUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Пользователь не был найден"));
-        return bookingMapper.toDTO(bookingRepository.findAllByUserIdOrderByAppointmentTimeDesc(neededUser.getId()));
+        return bookingMapper.toDTO(bookingRepository.findAllByUserIdAndStatusOrderByAppointmentTimeDesc(neededUser.getId(), BookingStatus.CREATED));
     }
 
     @Override

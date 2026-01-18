@@ -1,5 +1,6 @@
 package cdpoitmo.main_service.service.impl;
 
+import cdpoitmo.main_service.service.EmailService;
 import cdpoitmo.main_service.constants.BookingStatus;
 import cdpoitmo.main_service.constants.UserRole;
 import cdpoitmo.main_service.dto.adminDTO.CreateOperatorRequestDTO;

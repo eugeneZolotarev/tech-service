@@ -56,7 +56,7 @@ services:
       SECURITY_JWT_SECRET: YmFzZTY0LXNlY3VyZS1rZXktZm9yLWhzMjU2LXNpZ25pbmctMzItYnl0ZXM=
       SECURITY_JWT_REFRESH_SECRET: uN9fX2Vp8zP9vL/Rk8qW4zN2M5tJ6bQ7rT8yU0iO1pA=
       DWH_SERVICE_URL: http://dwh-service:8081
-      SPRING_PROFILES_ACTIVE: feign # или rest
+      SPRING_PROFILES_ACTIVE: feign, dev # или rest, prod
     ports:
       - "8080:8080"
     depends_on:

@@ -8,6 +8,7 @@ import cdpoitmo.main_service.exception.UserAlreadyExistsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -56,6 +57,12 @@ public class ExceptionHandlerController {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleGlobalException(Exception ex) {
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR,"Внутренняя ошибка сервера: " + ex.getMessage());
+    }
+
+    //несовпадение ролей - 403 Forbidden
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponseDTO> handleAccessDeniedException(AccessDeniedException ex) {
+        return buildResponse(HttpStatus.FORBIDDEN,"Доступ запрещен. У вас недостаточно прав для выполнения этой операции");
     }
 
     private ResponseEntity<ErrorResponseDTO> buildResponse(HttpStatus status, String message) {

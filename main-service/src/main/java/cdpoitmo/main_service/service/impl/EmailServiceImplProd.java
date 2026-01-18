@@ -2,11 +2,13 @@ package cdpoitmo.main_service.service.impl;
 
 import cdpoitmo.main_service.entity.ApplicationUser;
 import cdpoitmo.main_service.entity.Booking;
+import cdpoitmo.main_service.service.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -15,7 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class EmailService {
+@Profile("prod")
+public class EmailServiceImplProd implements EmailService{
 
     private final JavaMailSender javaMailSender;
 
@@ -37,6 +40,7 @@ public class EmailService {
         }
     }
 
+    @Override
     public void sendNotificationCreatedBooking(ApplicationUser user, Booking booking) {
         String subject = "Бронь была подтверждена";
         String text = String.format(
@@ -52,6 +56,7 @@ public class EmailService {
         sendMessage(user.getEmail(), subject, text);
     }
 
+    @Override
     public void sendNotificationUpdateTime(ApplicationUser user, Booking booking) {
         String subject = "Время бронирования было изменено";
         String text = String.format(
@@ -67,6 +72,7 @@ public class EmailService {
         sendMessage(user.getEmail(), subject, text);
     }
 
+    @Override
     public void sendNotificationCancelledByUser(ApplicationUser user, Booking booking) {
         String subject = "Отмена бронирования";
         String text = String.format(
@@ -79,6 +85,7 @@ public class EmailService {
         sendMessage(user.getEmail(), subject, text);
     }
 
+    @Override
     public void sendNotificationCancelledByAdmin(ApplicationUser user, Booking booking) {
         String subject = "Отмена записи сервисом";
         String text = String.format(
