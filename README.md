@@ -29,7 +29,7 @@ Backend-приложение для управления сервисом тех
 
 1.  **Клонируйте репозиторий:**
     ```bash
-    git clone [https://github.com/your-username/tech-service.git](https://github.com/your-username/tech-service.git)
+    git clone https://github.com/your-username/tech-service.git
     cd tech-service
     ```
 
